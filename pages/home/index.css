@@ -1,1 +1,26 @@
 /* Desenvolva seu estilo aqui */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 80%;
+    gap: 2rem;
+    padding: 2.5rem;
+}
+.div-logo{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.div-content-main{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 30%;
+    
+}
+.img-main{
+    border-radius: 0px 60px;
+    width: 40%;
+}
