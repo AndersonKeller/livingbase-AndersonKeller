@@ -6,3 +6,9 @@ button{
     font-size: var(--font-size-4);
     background-color: var(--color-grey-700);
 }
+.btn-top{
+    width: 50%;
+    background-color: var(--color-grey-200);
+    color: var(--color-grey-600);
+    
+}
