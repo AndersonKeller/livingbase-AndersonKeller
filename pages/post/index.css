@@ -1,1 +1,42 @@
 /* Desenvolva seu estilo aqui */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 930px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+main{
+    width: 930px;
+    margin: 0 auto;
+}
+.div-logo{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.section-post{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+.div-post-header{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    background-color: var(--color-grey-600);
+    padding: 5rem 0;
+}
+.div-post-body{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+.div-post-body img{
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
