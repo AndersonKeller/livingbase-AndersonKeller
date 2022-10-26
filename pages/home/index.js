@@ -1,5 +1,7 @@
 /* Desenvolva seu script aqui */
 import { conectAPI } from "../../scripts/requests.js";
+import { getLocalStorage } from "../../scripts/localStorage.js";
+getLocalStorage()
 
 const response = await conectAPI()
 response.news.forEach((e)=>{
@@ -8,7 +10,8 @@ response.news.forEach((e)=>{
 // <li class="li-category">
 // <button class="btn-category">Todos</button>
 // </li>
-async function renderButtons(){
+export async function renderButtons(){
+    let listCategory = []
     const ulCategory = document.querySelector(".ul-category");
     const newsBtn = await conectAPI();
     const li = document.createElement("li");
@@ -19,13 +22,17 @@ async function renderButtons(){
         li.appendChild(btn)
         ulCategory.appendChild(li);
 
-    newsBtn.news.forEach((news)=>{
+        newsBtn.news.forEach((news)=>{
         const li = document.createElement("li");
         li.classList.add("li-category");
         const btn = document.createElement("button");
         btn.classList.add("btn-category");
         btn.innerText = `${news.category}`
-        li.appendChild(btn)
+        listCategory.push(news.category);
+        
+                 li.appendChild(btn)
+            
+       
         ulCategory.appendChild(li)
 
     })
@@ -51,7 +58,10 @@ async function renderNews(){
         pContent.innerText = `${news.description}`;
         const aLink = document.createElement("a");
         aLink.classList.add("link-new");
-        aLink.innerText = "Acessar conteúdo"
+        aLink.innerText = "Acessar conteúdo";
+        aLink.addEventListener("click",()=>{
+            window.location.replace("../post/index.html")
+        })
 
         li.append(imgNews,h2Title,pContent,aLink)
         ulNews.appendChild(li)
