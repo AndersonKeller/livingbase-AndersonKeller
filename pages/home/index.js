@@ -1,7 +1,7 @@
 /* Desenvolva seu script aqui */
 import { conectAPI } from "../../scripts/requests.js";
 import { getLocalStorage } from "../../scripts/localStorage.js";
-getLocalStorage()
+//getLocalStorage()
 
 const response = await conectAPI()
 response.news.forEach((e)=>{
@@ -11,7 +11,10 @@ response.news.forEach((e)=>{
 // <button class="btn-category">Todos</button>
 // </li>
 export async function renderButtons(){
-    let listCategory = []
+   
+    const listLocal = await getLocalStorage();
+    console.log(listLocal)
+   
     const ulCategory = document.querySelector(".ul-category");
     const newsBtn = await conectAPI();
     const li = document.createElement("li");
@@ -22,20 +25,20 @@ export async function renderButtons(){
         li.appendChild(btn)
         ulCategory.appendChild(li);
 
-        newsBtn.news.forEach((news)=>{
-        const li = document.createElement("li");
-        li.classList.add("li-category");
-        const btn = document.createElement("button");
-        btn.classList.add("btn-category");
-        btn.innerText = `${news.category}`
-        listCategory.push(news.category);
-        
-                 li.appendChild(btn)
-            
-       
-        ulCategory.appendChild(li)
 
+        listLocal.forEach( (e)=>{
+            
+        const liNews = document.createElement("li");
+        liNews.classList.add("li-category");
+        const btnNews = document.createElement("button");
+        btnNews.classList.add("btn-category");
+        btnNews.innerText = `${e.category}`
+                liNews.appendChild(btnNews);
+                ulCategory.appendChild(liNews);
+      
+        
     })
+   
 
 }
 renderButtons()
@@ -60,6 +63,7 @@ async function renderNews(){
         aLink.classList.add("link-new");
         aLink.innerText = "Acessar conteúdo";
         aLink.addEventListener("click",()=>{
+            localStorage.setItem("idNews",JSON.stringify(`${news.id}`))
             window.location.replace("../post/index.html")
         })
 
