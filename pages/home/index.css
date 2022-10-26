@@ -33,6 +33,8 @@ main{
     justify-content: space-between;
     margin-top: 1rem;
     overflow: auto;
+    gap: 1rem;
+    width: 930px;
 }
 .ul-news{
     display: flex;

@@ -5,6 +5,7 @@ button{
     font-weight: 600;
     font-size: var(--font-size-4);
     background-color: var(--color-grey-700);
+    cursor: pointer;
 }
 .btn-top{
     width: 50%;
