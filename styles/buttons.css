@@ -7,6 +7,22 @@ button{
     background-color: var(--color-grey-700);
     cursor: pointer;
 }
+button:hover{
+    color: var(--color-grey-700);
+    background-color: var(--color-brand-100);
+}
+button:focus{
+    color: var(--color-grey-700);
+    background-color: var(--color-brand-200);
+}
+button:active{
+    color: var(--color-grey-700);
+    background-color: var(--color-brand-200);
+}
+.button-click{
+    color: var(--color-grey-700);
+    background-color: var(--color-brand-200);
+}
 .btn-top{
     width: 50%;
     background-color: var(--color-grey-200);

@@ -36,9 +36,7 @@ main{
     gap: 1rem;
     width: 930px;
 }
-.ul-category::-webkit-scrollbar{
-    
-}
+
 .ul-news{
     display: flex;
     flex-wrap: wrap;
