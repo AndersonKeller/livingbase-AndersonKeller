@@ -15,6 +15,24 @@ export async function renderButtons(){
     const listLocal = await getLocalStorage();
     
     const ulCategory = document.querySelector(".ul-category");
+    ulCategory.addEventListener("click",async (event)=>{
+        if(event.target.tagName == "BUTTON"){
+            
+            if(event.target.innerText == "Todos"){
+                const ulNews = document.querySelector(".ul-news");
+                ulNews.innerHTML = ""
+                await renderNews();
+                 observerNewsScroll()
+            }else{
+               await renderCategory(event.target.innerText);
+               const divFinal = document.querySelector(".div-final");
+              if(divFinal){
+                divFinal.remove()
+              }
+               
+            }
+        }
+    })
     
     const newsBtn = await conectAPI();
     const filtered = newsBtn.news.map((btn)=>{
@@ -37,7 +55,9 @@ export async function renderButtons(){
         liNews.classList.add("li-category");
         const btnNews = document.createElement("button");
         btnNews.classList.add("btn-category");
-        btnNews.innerText = `${e.category}`
+        btnNews.innerText = `${e.category}`;
+
+      
                 liNews.appendChild(btnNews);
                 ulCategory.appendChild(liNews);
       
@@ -46,16 +66,22 @@ export async function renderButtons(){
    
 
 }
-// renderButtons()
+ renderButtons()
 observerNewsScroll()
 let page =1;
-function observerNewsScroll(){
+async function observerNewsScroll(){
+    const main = document.querySelector("main")
+    const createDiv = document.createElement("div");
+    createDiv.classList.add("div-final")
+    main.appendChild(createDiv)
     const divObservadora = document.querySelector('.div-final');
-const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
-      conectAPI(page++)
+       if(page<4){
+        conectAPI(page++)
         renderNews()
         renderButtons()
+       }
     }
   });
   observer.observe(divObservadora);
@@ -93,4 +119,37 @@ async function renderNews(){
     })
 }
 //renderNews()
+async function renderCategory(category){
+    const localList = await getLocalStorage()
+    const ulNews = document.querySelector(".ul-news");
+    ulNews.innerHTML = ""
+   localList.forEach((news)=>{
+    if(news.category == category){
+       
+        const li = document.createElement("li");
+        li.classList.add("li-news");
+        li.id = `${news.id}`
+        const imgNews = document.createElement("img");
+        imgNews.src = `${news.image}`;
+        const h2Title = document.createElement("h2");
+        h2Title.classList.add("title-new");
+        h2Title.classList.add("title2");
+        h2Title.innerText = `${news.title}`;
+        const pContent = document.createElement("p");
+        pContent.classList.add("text2");
+        pContent.classList.add("content-new");
+        pContent.innerText = `${news.description}`;
+        const aLink = document.createElement("a");
+        aLink.classList.add("link-new");
+        aLink.innerText = "Acessar conteúdo";
+        aLink.addEventListener("click",()=>{
+            localStorage.setItem("idNews",JSON.stringify(`${news.id}`))
+            window.location.replace("../post/index.html")
+        })
 
+        li.append(imgNews,h2Title,pContent,aLink)
+        ulNews.appendChild(li)
+    }
+   })
+   
+}
