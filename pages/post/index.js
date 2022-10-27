@@ -2,13 +2,27 @@
 import { getLocalStorage, getIdLocalStorage } from "../../scripts/localStorage.js";
 import { renderButtons } from "../home/index.js";
 import {getPostById} from "../../scripts/requests.js"
-await renderButtons();
+ //renderButtons();
 
-function goToHome(){
+async function goToHome(){
     const btnHome = document.querySelector(".btn-home");
-    btnHome.addEventListener("click",()=>{
+    const id = await getIdLocalStorage();
+    console.log(id)
+    const post = await getPostById(id);
+    console.log(post.category);
+    localStorage.setItem("categoryPost",JSON.stringify(post.category));
+
+    btnHome.addEventListener("click",async ()=>{
+       // await renderPostSelected()
+        const ulBtns = document.querySelectorAll(".btn-category");
+        ulBtns.forEach((btn)=>{
+            console.log(btn.innerText)
+        })
+       
         window.location.replace("../home/index.html")
-    })
+    });
+    console.log(btnHome.innerText)
+    return post.category;
 }
 goToHome()
 
@@ -16,7 +30,7 @@ async function renderPostSelected(){
     const id = await getIdLocalStorage();
     console.log(id)
     const post = await getPostById(id);
-    console.log(post)
+    console.log(post.category)
 
     const main = document.querySelector("main")
     main.insertAdjacentHTML("afterbegin",`
@@ -31,5 +45,7 @@ async function renderPostSelected(){
         </div>
         </section>
     `)
+    await renderButtons()
+    return main;
 }
 renderPostSelected()

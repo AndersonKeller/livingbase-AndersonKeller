@@ -13,14 +13,20 @@ import { getLocalStorage } from "../../scripts/localStorage.js";
 export async function renderButtons(){
     
     const listLocal = await getLocalStorage();
+    const categorySelected = await JSON.parse(localStorage.getItem("categoryPost"));
+    console.log(categorySelected)
+
     
     const ulCategory = document.querySelector(".ul-category");
     ulCategory.innerHTML = ""
+    
     ulCategory.addEventListener("click",async (event)=>{
         if(event.target.tagName == "BUTTON"){
-            
+            const btn = event.target
+            btn.classList.toggle("button-click")
+            const ulNews = document.querySelector(".ul-news");
             if(event.target.innerText == "Todos"){
-                const ulNews = document.querySelector(".ul-news");
+                
                 ulNews.innerHTML = "";
                 await renderNews();
                  observerNewsScroll()
@@ -34,7 +40,7 @@ export async function renderButtons(){
             }
         }
     })
-    
+
     const newsBtn = await getLocalStorage();
     const filtered = newsBtn.map((btn)=>{
         return btn.category
@@ -54,7 +60,7 @@ export async function renderButtons(){
         ulCategory.appendChild(li);
         
         
-        filterList.forEach( (e)=>{
+        filterList.forEach(async (e)=>{
             
         const liNews = document.createElement("li");
         liNews.classList.add("li-category");
@@ -65,6 +71,10 @@ export async function renderButtons(){
       
                 liNews.appendChild(btnNews);
                 ulCategory.appendChild(liNews);
+                if(btnNews.innerText == categorySelected){
+                    console.log("oi")
+                    btnNews.click()
+                }
       
         
     })
@@ -93,10 +103,11 @@ async function observerNewsScroll(){
 }
   
 async function renderNews(){
-    
+   
     const newsList = await conectAPI(page);
     newsList.news.forEach((news)=>{
         const ulNews = document.querySelector(".ul-news");
+       
         const li = document.createElement("li");
         li.classList.add("li-news");
         li.id = `${news.id}`
