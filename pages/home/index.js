@@ -15,12 +15,13 @@ export async function renderButtons(){
     const listLocal = await getLocalStorage();
     
     const ulCategory = document.querySelector(".ul-category");
+    ulCategory.innerHTML = ""
     ulCategory.addEventListener("click",async (event)=>{
         if(event.target.tagName == "BUTTON"){
             
             if(event.target.innerText == "Todos"){
                 const ulNews = document.querySelector(".ul-news");
-                ulNews.innerHTML = ""
+                ulNews.innerHTML = "";
                 await renderNews();
                  observerNewsScroll()
             }else{
@@ -34,11 +35,15 @@ export async function renderButtons(){
         }
     })
     
-    const newsBtn = await conectAPI();
-    const filtered = newsBtn.news.map((btn)=>{
+    const newsBtn = await getLocalStorage();
+    const filtered = newsBtn.map((btn)=>{
         return btn.category
     })
     console.log(filtered)
+    let filterList = filtered.filter(function(e,i){
+        return filtered.indexOf(e)===i;
+    })
+    console.log(filterList)
     
     const li = document.createElement("li");
         li.classList.add("li-category");
@@ -49,14 +54,14 @@ export async function renderButtons(){
         ulCategory.appendChild(li);
         
         
-        listLocal.forEach( (e)=>{
+        filterList.forEach( (e)=>{
             
         const liNews = document.createElement("li");
         liNews.classList.add("li-category");
         const btnNews = document.createElement("button");
         btnNews.classList.add("btn-category");
-        btnNews.innerText = `${e.category}`;
-
+        btnNews.innerText = `${e}`;
+        
       
                 liNews.appendChild(btnNews);
                 ulCategory.appendChild(liNews);
@@ -66,7 +71,7 @@ export async function renderButtons(){
    
 
 }
- renderButtons()
+ //renderButtons()
 observerNewsScroll()
 let page =1;
 async function observerNewsScroll(){
@@ -117,6 +122,7 @@ async function renderNews(){
         ulNews.appendChild(li)
 
     })
+    renderButtons()
 }
 //renderNews()
 async function renderCategory(category){
