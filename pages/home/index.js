@@ -3,20 +3,25 @@ import { conectAPI } from "../../scripts/requests.js";
 import { getLocalStorage } from "../../scripts/localStorage.js";
 //getLocalStorage()
 //let page =1;
-const response = await conectAPI()
-response.news.forEach((e)=>{
-    //console.log(e.category)
-})
+// const response = await conectAPI()
+// response.news.forEach((e)=>{
+//     //console.log(e.category)
+// })
 // <li class="li-category">
 // <button class="btn-category">Todos</button>
 // </li>
 export async function renderButtons(){
-   
+    
     const listLocal = await getLocalStorage();
-    console.log(listLocal)
-   
+    
     const ulCategory = document.querySelector(".ul-category");
+    
     const newsBtn = await conectAPI();
+    const filtered = newsBtn.news.map((btn)=>{
+        return btn.category
+    })
+    console.log(filtered)
+    
     const li = document.createElement("li");
         li.classList.add("li-category");
         const btn = document.createElement("button");
@@ -24,8 +29,8 @@ export async function renderButtons(){
         btn.innerText = `Todos`
         li.appendChild(btn)
         ulCategory.appendChild(li);
-
-
+        
+        
         listLocal.forEach( (e)=>{
             
         const liNews = document.createElement("li");
@@ -41,7 +46,7 @@ export async function renderButtons(){
    
 
 }
-renderButtons()
+// renderButtons()
 observerNewsScroll()
 let page =1;
 function observerNewsScroll(){
@@ -50,6 +55,7 @@ const observer = new IntersectionObserver((entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
       conectAPI(page++)
         renderNews()
+        renderButtons()
     }
   });
   observer.observe(divObservadora);
