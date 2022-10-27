@@ -1,5 +1,7 @@
-export async function conectAPI(){
-    const data = await fetch("https://m2-api-living.herokuapp.com/news?page=1")
+
+
+export async function conectAPI(currentPage){
+    const data = await fetch(`https://m2-api-living.herokuapp.com/news?page=${currentPage}`)
     const dataJson = await data.json();
    
     
@@ -13,3 +15,4 @@ export async function getPostById(id){
 
     return dataJson;
 }
+

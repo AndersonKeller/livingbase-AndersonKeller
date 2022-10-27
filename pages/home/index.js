@@ -2,10 +2,10 @@
 import { conectAPI } from "../../scripts/requests.js";
 import { getLocalStorage } from "../../scripts/localStorage.js";
 //getLocalStorage()
-
+//let page =1;
 const response = await conectAPI()
 response.news.forEach((e)=>{
-    console.log(e.category)
+    //console.log(e.category)
 })
 // <li class="li-category">
 // <button class="btn-category">Todos</button>
@@ -42,8 +42,22 @@ export async function renderButtons(){
 
 }
 renderButtons()
+observerNewsScroll()
+let page =1;
+function observerNewsScroll(){
+    const divObservadora = document.querySelector('.div-final');
+const observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      conectAPI(page++)
+        renderNews()
+    }
+  });
+  observer.observe(divObservadora);
+}
+  
 async function renderNews(){
-    const newsList = await conectAPI();
+    
+    const newsList = await conectAPI(page);
     newsList.news.forEach((news)=>{
         const ulNews = document.querySelector(".ul-news");
         const li = document.createElement("li");
@@ -72,10 +86,5 @@ async function renderNews(){
 
     })
 }
-renderNews()
-{/* <li class="li-news">
-<img src="../../assets/news1.png" alt="">
-<h2 class="title-new title2">Cuidados para manter com plantas dentro de apartamentos</h2>
-<p class="content-new text2">Invite as many collaborators as you’d like. They can register as team members or join as guests – no registration required.</p>
-<a href="" class="link-new">Acessar conteúdo</a>
-</li> */}
+//renderNews()
+
