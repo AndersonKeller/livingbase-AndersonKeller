@@ -33,3 +33,7 @@ button::selection{
     color: var(--color-grey-600);
     
 }
+.btn-top:hover{
+    color: var(--color-grey-700);
+    background-color: var(--color-grey-300);
+}

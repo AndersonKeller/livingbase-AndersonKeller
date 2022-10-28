@@ -1,6 +1,9 @@
 /* Desenvolva seu script aqui */
 import { conectAPI } from "../../scripts/requests.js";
 import { getLocalStorage } from "../../scripts/localStorage.js";
+import {verifyClick} from "../../scripts/verifyClick.js"
+
+
 //getLocalStorage()
 //let page =1;
 // const response = await conectAPI()
@@ -20,7 +23,7 @@ export async function renderButtons(){
     ulCategory.addEventListener("click",async (event)=>{
         if(event.target.tagName == "BUTTON"){
             const btn = event.target
-            btn.classList.toggle("button-click")
+            // btn.classList.toggle("button-click")
             const ulNews = document.querySelector(".ul-news");
             if(event.target.innerText == "Todos"){
                 
@@ -47,7 +50,6 @@ export async function renderButtons(){
         return filtered.indexOf(e)===i;
     })
    
-    
     const li = document.createElement("li");
         li.classList.add("li-category");
         const btn = document.createElement("button");
@@ -56,29 +58,22 @@ export async function renderButtons(){
         li.appendChild(btn)
         ulCategory.appendChild(li);
         
-        
         filterList.forEach(async (e)=>{
-            
         const liNews = document.createElement("li");
         liNews.classList.add("li-category");
         const btnNews = document.createElement("button");
         btnNews.classList.add("btn-category");
         btnNews.innerText = `${e}`;
-        
-      
                 liNews.appendChild(btnNews);
                 ulCategory.appendChild(liNews);
                 if(btnNews.innerText == categorySelected){
-                    console.log("oi")
-                    //btnNews.click()
-                }
-      
-        
+                    
+                    btnNews.click()
+                } 
     })
    
-
 }
- //renderButtons()
+
  let page =1;
 observerNewsScroll()
 
@@ -95,7 +90,7 @@ async function observerNewsScroll(){
        if(page<=4){
         await conectAPI(page)
         await renderNews()
-       await renderButtons()
+       //await renderButtons()
        }
     }
   });
@@ -133,14 +128,15 @@ async function renderNews(){
         ulNews.appendChild(li)
 
     })
-    await renderButtons()
+    await renderButtons();
+    await verifyClick();
 }
 //renderNews()
 async function renderCategory(category){
     const localList = await getLocalStorage()
     const ulNews = document.querySelector(".ul-news");
     ulNews.innerHTML = ""
-   localList.forEach((news)=>{
+     localList.forEach((news)=>{
     if(news.category == category){
        
         const li = document.createElement("li");
