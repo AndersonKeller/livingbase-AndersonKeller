@@ -7,19 +7,16 @@ import {getPostById} from "../../scripts/requests.js"
 async function goToHome(){
     const btnHome = document.querySelector(".btn-home");
     const id = await getIdLocalStorage();
-    console.log(id)
+   
     const post = await getPostById(id);
-    console.log(post.category);
     localStorage.setItem("categoryPost",JSON.stringify(post.category));
 
     btnHome.addEventListener("click",async ()=>{
        // await renderPostSelected()
-        const ulBtns = document.querySelectorAll(".btn-category");
-      
-       
+        
         window.location.replace("../home/index.html")
     });
-    console.log(btnHome.innerText)
+    
     return post.category;
 }
 goToHome()
@@ -28,8 +25,6 @@ async function renderPostSelected(){
     const id = await getIdLocalStorage();
     
     const post = await getPostById(id);
-   
-
     const main = document.querySelector("main")
     main.insertAdjacentHTML("afterbegin",`
     <section class="section-post">
