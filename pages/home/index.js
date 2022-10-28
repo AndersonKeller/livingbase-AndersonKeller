@@ -12,11 +12,8 @@ import { getLocalStorage } from "../../scripts/localStorage.js";
 // </li>
 export async function renderButtons(){
     
-    const listLocal = await getLocalStorage();
     const categorySelected = await JSON.parse(localStorage.getItem("categoryPost"));
-    console.log(categorySelected)
-
-    
+   
     const ulCategory = document.querySelector(".ul-category");
     ulCategory.innerHTML = ""
     
@@ -29,7 +26,7 @@ export async function renderButtons(){
                 
                 ulNews.innerHTML = "";
                 await renderNews();
-                 observerNewsScroll()
+                await observerNewsScroll()
             }else{
                await renderCategory(event.target.innerText);
                const divFinal = document.querySelector(".div-final");
@@ -45,11 +42,11 @@ export async function renderButtons(){
     const filtered = newsBtn.map((btn)=>{
         return btn.category
     })
-    console.log(filtered)
+    
     let filterList = filtered.filter(function(e,i){
         return filtered.indexOf(e)===i;
     })
-    console.log(filterList)
+   
     
     const li = document.createElement("li");
         li.classList.add("li-category");
@@ -73,7 +70,7 @@ export async function renderButtons(){
                 ulCategory.appendChild(liNews);
                 if(btnNews.innerText == categorySelected){
                     console.log("oi")
-                    btnNews.click()
+                    //btnNews.click()
                 }
       
         
@@ -82,20 +79,23 @@ export async function renderButtons(){
 
 }
  //renderButtons()
+ let page =1;
 observerNewsScroll()
-let page =1;
+
 async function observerNewsScroll(){
     const main = document.querySelector("main")
     const createDiv = document.createElement("div");
     createDiv.classList.add("div-final")
-    main.appendChild(createDiv)
+    main.appendChild(createDiv);
+    
     const divObservadora = document.querySelector('.div-final');
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(async (entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
-       if(page<4){
-        conectAPI(page++)
-        renderNews()
-        renderButtons()
+        page++
+       if(page<=4){
+        await conectAPI(page)
+        await renderNews()
+       await renderButtons()
        }
     }
   });
@@ -133,7 +133,7 @@ async function renderNews(){
         ulNews.appendChild(li)
 
     })
-    renderButtons()
+    await renderButtons()
 }
 //renderNews()
 async function renderCategory(category){

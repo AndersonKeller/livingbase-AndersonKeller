@@ -15,9 +15,7 @@ async function goToHome(){
     btnHome.addEventListener("click",async ()=>{
        // await renderPostSelected()
         const ulBtns = document.querySelectorAll(".btn-category");
-        ulBtns.forEach((btn)=>{
-            console.log(btn.innerText)
-        })
+      
        
         window.location.replace("../home/index.html")
     });
@@ -28,9 +26,9 @@ goToHome()
 
 async function renderPostSelected(){
     const id = await getIdLocalStorage();
-    console.log(id)
+    
     const post = await getPostById(id);
-    console.log(post.category)
+   
 
     const main = document.querySelector("main")
     main.insertAdjacentHTML("afterbegin",`
